@@ -1,0 +1,15 @@
+diff --git a/Source/player.cpp b/Source/player.cpp
+index e4d248101..74630cb70 100644
+--- a/Source/player.cpp
++++ b/Source/player.cpp
+@@ -2428,9 +2428,7 @@ void AddPlrMonstExper(int lvl, unsigned exp, char pmask)
+ 	}
+ 
+ 	if (totplrs != 0) {
+-		unsigned e = exp / totplrs;
+-		if ((pmask & (1 << MyPlayerId)) != 0)
+-			MyPlayer->addExperience(e, lvl);
++        MyPlayer->addExperience(exp, lvl);
+ 	}
+ }
+ 

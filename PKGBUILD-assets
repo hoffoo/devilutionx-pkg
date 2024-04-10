@@ -2,7 +2,7 @@
 # Contributor: LIN Rs <LinRs[d]users.noreply.github.com>
 
 pkgbase=devilutionx-git
-pkgname=("${pkgbase}")
+pkgname=("devilutionx-assets-git")
 pkgver=1.5.1.r447.8fa95a174
 pkgrel=1
 pkgdesc="Diablo devolved for linux (git version)"
@@ -13,7 +13,7 @@ depends=('bzip2' 'fmt' 'libpng' 'libsodium' 'sdl2' 'sdl2_image' 'simpleini' 'zli
 makedepends=('cmake' 'devilutionx-graphics-tools-git' 'flac' 'gettext' 'git' 'lame' 'smpq')
 conflicts=("${pkgbase%-git}")
 provides=("${pkgbase%-git}")
-source=("${pkgbase%-git}::git+${url}")
+source=("${pkgbase%-git}-assets::git+${url}-assets")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -27,19 +27,20 @@ prepare() {
   fi
 }
 
-build() {
-  patch -d "${pkgbase%-git}/" -p1 < ../no-item-drop.patch
-  patch -d "${pkgbase%-git}/" -p1 < ../exp-share.patch
-  cd build
-  cmake ../"${pkgbase%-git}" \
-    -DBUILD_TESTING=off \
-    -DCMAKE_INSTALL_PREFIX="/usr"
+package_devilutionx-assets-git() {
+  pkgdesc="Additional assets for DevilutionX"
+  depends=("${pkgbase}")
+  conflicts=("${pkgname%-git}" "devilutionx-fonts" "devilutionx-voices")
+  provides=("${pkgname%-git}" "devilutionx-fonts" "devilutionx-voices")
 
-  cmake --build . -j $(getconf _NPROCESSORS_ONLN)
-}
+  cd "${srcdir}/${pkgname%-git}"
 
-package_devilutionx-git() {
-  cd build
-  DESTDIR="${pkgdir}" \
-    cmake --install .
+  ./build.sh
+
+  install -Dm644 fonts.mpq \
+    "${pkgdir}/usr/share/diasurgical/devilutionx/fonts.mpq"
+  install -Dm644 pl.mpq \
+    "${pkgdir}/usr/share/diasurgical/devilutionx/pl.mpq"
+  install -Dm644 ru.mpq \
+    "${pkgdir}/usr/share/diasurgical/devilutionx/ru.mpq"
 }

@@ -1,0 +1,13 @@
+diff --git a/Source/player.cpp b/Source/player.cpp
+index e4d248101..382deeed7 100644
+--- a/Source/player.cpp
++++ b/Source/player.cpp
+@@ -2644,7 +2644,7 @@ StartPlayerKill(Player &player, DeathReason deathReason)
+ 		NetSendCmdParam1(true, CMD_PLRDEAD, static_cast<uint16_t>(deathReason));
+ 	}
+ 
+-	const bool dropGold = !gbIsMultiplayer || !(player.isOnLevel(16) || player.isOnArenaLevel());
++	const bool dropGold = false;
+ 	const bool dropItems = dropGold && deathReason == DeathReason::MonsterOrTrap;
+ 	const bool dropEar = dropGold && deathReason == DeathReason::Player;
+ 
